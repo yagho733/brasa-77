@@ -30,6 +30,54 @@
   box-shadow:none !important;
 }
 
+/* Fallback cinematográfico: se a CDN dos vídeos falhar, o site não fica com fundo morto. */
+.hero.video-fallback{
+  background:#080604 url("https://images.pexels.com/photos/21820165/pexels-photo-21820165.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;
+  isolation:isolate;
+}
+.hero.video-fallback::before{
+  content:"";
+  position:absolute;
+  inset:-5%;
+  z-index:0;
+  background:inherit;
+  background-position:center;
+  background-size:cover;
+  animation:brasaFallbackMove 10s ease-in-out infinite alternate;
+  filter:saturate(.92) contrast(1.06) brightness(.72);
+}
+.hero.video-fallback::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:1;
+  pointer-events:none;
+  background:radial-gradient(circle at 58% 62%,rgba(255,92,25,.18),transparent 34%),linear-gradient(180deg,rgba(5,3,2,.08),rgba(5,3,2,.46));
+  animation:brasaGlow 4.8s ease-in-out infinite alternate;
+}
+.hero.video-fallback .hero-shade,.hero.video-fallback .hero-glow,.hero.video-fallback .ember-layer,.hero.video-fallback .hero-content,.hero.video-fallback .scroll-cue{z-index:2}
+.fire-media.video-fallback{
+  background:#090604 url("https://images.pexels.com/photos/18713426/pexels-photo-18713426.jpeg?auto=compress&cs=tinysrgb&w=1920") center/cover no-repeat;
+}
+.fire-media.video-fallback::before{
+  content:"";
+  position:absolute;
+  inset:-4%;
+  background:inherit;
+  background-position:center;
+  background-size:cover;
+  animation:brasaFallbackMove 12s ease-in-out infinite alternate-reverse;
+  filter:saturate(.9) contrast(1.08) brightness(.7);
+}
+@keyframes brasaFallbackMove{
+  from{transform:scale(1.04) translate3d(-.7%,0,0)}
+  to{transform:scale(1.1) translate3d(.8%,-.8%,0)}
+}
+@keyframes brasaGlow{
+  from{opacity:.62}
+  to{opacity:1}
+}
+
 /* Cinematic separator: show the complete photograph, never crop the food. */
 .charcoal-break{
   height:auto !important;
@@ -140,4 +188,8 @@
     line-height:.98 !important;
     letter-spacing:-.008em !important;
   }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .hero.video-fallback::before,.hero.video-fallback::after,.fire-media.video-fallback::before{animation:none!important;transform:none!important}
 }
